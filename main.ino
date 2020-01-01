@@ -12,25 +12,26 @@
 #include <ArduinoOTA.h>
 #include "config.h"
 
-#define VERSION                 "0.1"    // Software version
+// Software version
+#define VERSION "0.1" 
 
 // Wifi
 const char* ssid = WIFI_SSID;
 const char* password = WIFI_PASSWORD;
 
 // MQTT
-const char* mqtt_server            = MQTT_SERVER;
-const int   mqtt_port              = MQTT_PORT;
-const char* mqtt_username          = MQTT_USER;
-const char* mqtt_password          = MQTT_PASSWORD;
+const char* mqtt_server = MQTT_SERVER;
+const int   mqtt_port = MQTT_PORT;
+const char* mqtt_username = MQTT_USER;
+const char* mqtt_password = MQTT_PASSWORD;
 
 // Channels
 const char* mqtt_topic_agus_light = "lights/agus/light";
 const char* mqtt_topic_agus_temperature = "sensors/agus/temperature";
 const char* mqtt_topic_infra_agus_status = "infrastructure/agus/status";
-const char* mqtt_topic_infra_agus_ip      = "infrastructure/agus/ip";
+const char* mqtt_topic_infra_agus_ip = "infrastructure/agus/ip";
 const char* mqtt_topic_infra_agus_version = "infrastructure/agus/version";
-const char* mqtt_topic_infra_agus_chipid  = "infrastructure/agus/chipid";
+const char* mqtt_topic_infra_agus_chipid = "infrastructure/agus/chipid";
 
 // Global Variables
 WiFiClient espClient;
@@ -184,7 +185,6 @@ float getTemperature(int index) {
 *******************************************************************************/
 void process_payload(byte* payload, int pin, unsigned int length){
     // Switch on the Relay if an 1 was received as first character
-    //Serial.println((char)payload[0]);
     char buffer[128];
     // Make sure here that `length` is smaller than the above buffer size. 
     // Otherwise, you'd need a bigger buffer
@@ -246,7 +246,6 @@ void reconnect() {
       // Send Unknown as Temp until next read
       client.publish(mqtt_topic_agus_temperature, "unknown");
   
-      
       // Resubscribe
       client.subscribe(mqtt_topic_agus_light);
       
@@ -283,14 +282,5 @@ void loop() {
     // send temperature to the MQTT topic
     client.publish(mqtt_topic_agus_temperature, temperatureString);
   }
-  /*int i;
-  for(i=0; i<100; i++){
-      analogWrite(FAIRYLIGHTS, i);
-      delay(10);
-    }
-  for(i=100; i>0; i--){
-    analogWrite(FAIRYLIGHTS, i);
-    delay(10);
-  }*/
   ArduinoOTA.handle();
 }
